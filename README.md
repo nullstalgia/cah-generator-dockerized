@@ -10,6 +10,10 @@
 
 ## Turbo Quick Start ⭐
 
+### About this fork:
+
+I was using this tool but wanted to use a custom icon as well as the normal fonts. Those aren't supplied due to copyright (it's a paid font), but the current code expects them.
+
 Generating your own custom CAH deck:
 
 1. Make sure all the cards you want to generate are up-to-date in the `cards/deck_<#>` folder
