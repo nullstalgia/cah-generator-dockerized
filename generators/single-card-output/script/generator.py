@@ -21,7 +21,7 @@ def get_cards(path):
 
 def create_card(card, color):
 
-    command = ["php", "generator.php", f"batch-id=cards&card-text={card}&card-color={color}&icon=none&mechanic=none"]
+    command = ["php", "generator.php", f"batch-id=cards&card-text={card}&card-color={color}&icon=custom&mechanic=none"]
     process = subprocess.Popen(command, stdout=subprocess.PIPE)
     output, error = process.communicate()
 
@@ -78,7 +78,7 @@ def add_custom_game_name(game_name, invert=False):
         draw.rectangle(shape, fill="#FFFFFF")
 
     # Add custom text to image
-    font = ImageFont.truetype('fonts/NimbusSanL-Bol.otf', size=92)
+    font = ImageFont.truetype('fonts/HelveticaNeue-Bold.otf', size=92)
     if invert:
         draw.text((840, 3900), game_name, font=font, fill="#FFFFFF")
     else:
@@ -129,16 +129,17 @@ def check_game_info_file():
     return game_info
 
 def add_custom_deck_version(version):
+    return
     # Open an Image
-    img = Image.open("files/cards/cards_0.png")
-    draw = ImageDraw.Draw(img)
+    #img = Image.open("files/cards/cards_0.png")
+    #draw = ImageDraw.Draw(img)
 
     # Add custom text to image
-    font = ImageFont.truetype('fonts/NimbusSanL-Bol.otf', size=92)
-    draw.text((650, 3900), version, font=font, fill=(0, 0, 0))
-    
+    #font = ImageFont.truetype('fonts/HelveticaNeue-Bold.otf', size=92)
+    #draw.text((650, 3900), version, font=font, fill=(0, 0, 0))
+
     # Save the edited image
-    img.save("files/cards/cards_0.png")
+    #img.save("files/cards/cards_0.png")
 
 def check_for_custom_img_tag(card):
     search = r"{{(\d)}}"

@@ -112,7 +112,7 @@ $card_front = "$card_color$mechanic.png";
 if ($batch != '' && $card_count < 31) {
 	mkdir($path);
 	
-	if ($icon == 'custom-' && getimagesize($_FILES["customIcon"]["tmp_name"]) && move_uploaded_file($_FILES["customIcon"]["tmp_name"], $path . '/custom_icon_raw')) {
+	if ($icon == 'custom-' && getimagesize($card_front_path . '/custom.png') && copy($card_front_path . '/custom.png', $path . '/custom_icon_raw')) {
 
 	    // The White and Black cards aren't pixel perfect - the 'three card logo' in the bottom left corner is in a slightly different spot on each 
 	    // Thus to get the custom icon to line up as best as possible, we need a slightly different set of coordinates
