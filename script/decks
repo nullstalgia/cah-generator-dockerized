@@ -9,5 +9,5 @@ args = parser.parse_args()
 
 
 for i in range(int(args.startat),int(args.decks)+int(args.startat)):
-    os.system("script/deck --deck="+str(i+1))
+    os.system("script/deck --deck="+str(i))
     #print(i)
