@@ -1,0 +1,11 @@
+#!/usr/bin/python3
+
+import argparse
+import os
+parser = argparse.ArgumentParser()
+parser.add_argument("decks", help="how many decks")
+args = parser.parse_args()
+
+
+for i in range(int(args.decks)):
+    os.system("script/deck --deck="+str(i+1))

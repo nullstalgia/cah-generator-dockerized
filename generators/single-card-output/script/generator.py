@@ -10,7 +10,7 @@ from PIL import Image, ImageDraw, ImageFont
 DECK = os.environ['DECK']
 
 def get_cards(path):
-    with open(path, 'r') as file_contents:
+    with open(path, 'r', errors='replace') as file_contents:
         cards_raw = file_contents.readlines()
 
     cards = []
@@ -19,9 +19,9 @@ def get_cards(path):
 
     return cards
 
-def create_card(card, color):
+def create_card(card, color, icon):
 
-    command = ["php", "generator.php", f"batch-id=cards&card-text={card}&card-color={color}&icon=custom&mechanic=none"]
+    command = ["php", "generator.php", f"batch-id=cards&card-text={card}&card-color={color}&icon={icon}&mechanic=none"]
     process = subprocess.Popen(command, stdout=subprocess.PIPE)
     output, error = process.communicate()
 
@@ -195,7 +195,11 @@ def generate_card(card, color, game_info, counter):
         fmt_card = format_card_text(card)
 
         # Create the card
-        create_card(fmt_card, color)
+        
+        if "icon" in game_info:
+            create_card(fmt_card, color, game_info["icon"])
+        else:
+            create_card(fmt_card, color, "none")
 
         # Add the custom game name if there is one
         if game_info["game_name"]:
