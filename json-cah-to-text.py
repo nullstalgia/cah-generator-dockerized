@@ -34,7 +34,7 @@ def unmark(text):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("json_filename", help="display a square of a given number")
-parser.add_argument("--usename", help="write deck's name on cards instead of 'Cards Against Humanity'")
+parser.add_argument("-n","--usecah", help="write deck's name on cards instead of 'Cards Against Humanity'", action="store_true")
 args = parser.parse_args()
 print(args.json_filename)
 
@@ -86,15 +86,15 @@ for deck in data:
             #print(card)
     with open(deckpath+"/info.txt", 'w') as file:
         name = "Cards Against Humanity"
-        if args.usename:
+        if not args.usecah:
             name = deck["name"]
         file.write("name = "+name+"\n")
         file.write("short_name = CAH\n")
-        file.write("real_name = "+deck["name"]+"\n")
         file.write("version = 1\n")
         file.write("custom_img_1 = bean.png\n")
         file.write("custom_img_2 = bean.png\n")
         file.write("custom_img_3 = bean.png\n")
         file.write("custom_img_4 = bean.png\n")
         file.write("custom_img_5 = bean.png\n")
+        file.write("real_name = "+deck["name"]+"\n")
     print(clean_deckname)
