@@ -53,9 +53,8 @@ def make_whites(pngs, iteration=0):
                 row+=1
     column = 9
     row = 6  
-    if len(png_load) < 70:
-        with Image.open("tts/back-white.png") as card:
-                im.paste(card, (card.size[0]*column,card.size[1]*row))
+    with Image.open("tts/back-white.png") as card:
+            im.paste(card, (card.size[0]*column,card.size[1]*row))
 
     im = im.resize((new_sheet_size_w,new_sheet_size_h))
     im.save(args.decks_path+"white-"+str(iteration)+"-"+str(len(png_load))+".png")
@@ -69,10 +68,10 @@ def make_blacks(pngs, iteration=0):
             card = card.resize((new_card_size_w, new_card_size_h))
             card.save(args.decks_path+"black-"+str(iteration)+"-1.png")
         return
-    if len(pngs) > 70:
+    if len(pngs) > 69:
         #for i in range(69):
-        png_load = pngs[0:70]
-        png_offload = pngs[70:]
+        png_load = pngs[0:69]
+        png_offload = pngs[69:]
         make_blacks(png_offload,iteration+1)
     im = Image.new("RGB", size=(pre_sheet_size_w,pre_sheet_size_h))
     
@@ -90,9 +89,8 @@ def make_blacks(pngs, iteration=0):
                 row+=1
     column = 9
     row = 6  
-    if len(png_load) < 70:
-        with Image.open("tts/back-black.png") as card:
-                im.paste(card, (card.size[0]*column,card.size[1]*row))
+    with Image.open("tts/back-black.png") as card:
+            im.paste(card, (card.size[0]*column,card.size[1]*row))
 
     im = im.resize((new_sheet_size_w,new_sheet_size_h))
     im.save(args.decks_path+"black-"+str(iteration)+"-"+str(len(png_load))+".png")
