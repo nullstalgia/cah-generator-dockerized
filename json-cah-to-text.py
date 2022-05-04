@@ -5,6 +5,7 @@ import json
 import os
 from sys import prefix
 from tokenize import String
+import textwrap
 
 # https://stackoverflow.com/questions/761824/python-how-to-convert-markdown-formatted-text-to-text
 from markdown import Markdown
@@ -34,7 +35,7 @@ def unmark(text):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("json_filename", help="display a square of a given number")
-parser.add_argument("-n","--usecah", help="write deck's name on cards instead of 'Cards Against Humanity'", action="store_true")
+parser.add_argument("-n","--usecah", help="write 'Cards Against Humanity' on cards instead of deck's name", action="store_true")
 args = parser.parse_args()
 print(args.json_filename)
 
@@ -88,6 +89,13 @@ for deck in data:
         name = "Cards Against Humanity"
         if not args.usecah:
             name = deck["name"]
+            name = name.replace(": ", "\n")
+            name = name.replace(":", "\n")
+            name = name.replace(" - ", "\n")
+            name = name.replace("CAH\n", "CAH: ")
+            paragraphs = name.splitlines()
+            textOut = "\\n".join(["\\n".join(textwrap.wrap(p, 24)) for p in paragraphs])
+            name = textOut
         file.write("name = "+name+"\n")
         file.write("short_name = CAH\n")
         file.write("version = 1\n")

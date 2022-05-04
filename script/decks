@@ -5,9 +5,13 @@ import os
 parser = argparse.ArgumentParser()
 parser.add_argument("decks", help="how many decks")
 parser.add_argument("--startat", help="how many decks", default=1)
+parser.add_argument("-t","--tabletop", help="generate tabletop files as decks are make", action="store_true")
 args = parser.parse_args()
 
 
 for i in range(int(args.startat),int(args.decks)+int(args.startat)):
+    print("Starting Deck "+str(i))
     os.system("script/deck --deck="+str(i))
+    if args.tabletop:
+        os.system("./zips-to-tabletop.py decks/")
     #print(i)

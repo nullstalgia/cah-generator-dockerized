@@ -20,18 +20,22 @@ pre_sheet_size_w = 32880
 pre_sheet_size_h = 31416
 new_sheet_size_w = 4096
 new_sheet_size_h = 3914
+new_card_size_w = 3001
+new_card_size_h = 4096
 
 def make_whites(pngs, iteration=0):
     whites = args.decks_path+"white/"
     #command = "montage -depth 2 -limit area 8192 -limit memory 8192 -quality 100 -mode concatenate -tile 10x7 -fill white "
     png_load = pngs
     if len(png_load) == 1:
-        shutil.copyfile(whites+png_load[0], args.decks_path+"white-"+str(iteration)+"-1.png")
+        with Image.open(whites+png_load[0]) as card:
+            card = card.resize((new_card_size_w, new_card_size_h))
+            card.save(args.decks_path+"white-"+str(iteration)+"-1.png")
         return
-    if len(pngs) > 70:
+    if len(pngs) > 69:
         #for i in range(69):
-        png_load = pngs[0:70]
-        png_offload = pngs[70:]
+        png_load = pngs[0:69]
+        png_offload = pngs[69:]
         make_whites(png_offload,iteration+1)
     im = Image.new("RGB", size=(pre_sheet_size_w,pre_sheet_size_h))
     
@@ -61,7 +65,9 @@ def make_blacks(pngs, iteration=0):
     #command = "montage -depth 2 -limit area 8192 -limit memory 8192 -quality 100 -mode concatenate -tile 10x7 -fill white "
     png_load = pngs
     if len(png_load) == 1:
-        shutil.copyfile(blacks+png_load[0], args.decks_path+"black-"+str(iteration)+"-1.png")
+        with Image.open(blacks+png_load[0]) as card:
+            card = card.resize((new_card_size_w, new_card_size_h))
+            card.save(args.decks_path+"black-"+str(iteration)+"-1.png")
         return
     if len(pngs) > 70:
         #for i in range(69):
@@ -97,7 +103,7 @@ for zip in onlyfiles:
     srcs = args.decks_path+"src/"
     zippath = args.decks_path+"/"+zip
     
-    if zip[-3:] == "zip":
+    if zip[-3:] == "zip" and zip[:5] == "deck_":
         print(zip)
         os.system("rm "+args.decks_path+"/white-*")
         os.system("rm "+args.decks_path+"/black-*")
@@ -110,8 +116,10 @@ for zip in onlyfiles:
         with zipfile.ZipFile(zippath, 'r') as zip_ref:
             zip_ref.extractall(args.decks_path)
         pngs = sorted([f for f in os.listdir(whites) if os.path.isfile(os.path.join(whites, f))])
+        print("Generating Whites")
         make_whites(pngs)
         pngs = sorted([f for f in os.listdir(blacks) if os.path.isfile(os.path.join(blacks, f))])
+        print("Generating Blacks")
         make_blacks(pngs)
         deckname = ""
         with open(srcs+'info.txt') as info_file:
@@ -127,7 +135,8 @@ for zip in onlyfiles:
         for deck in sorted([f for f in os.listdir(args.decks_path) if os.path.isfile(os.path.join(args.decks_path, f))]):
             if deck[-4:] == ".png" and (deck[:5] == "white" or deck[:5] == "black"):
                 shutil.move(args.decks_path+deck, args.decks_path+"/"+deckname)
-        os.remove(zippath)
+        #os.remove(zippath)
+        shutil.move(zippath, args.decks_path+"/"+deckname+".zip")
 if os.path.exists(whites):
     shutil.rmtree(whites)
 if os.path.exists(blacks):

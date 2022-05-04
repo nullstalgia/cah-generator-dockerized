@@ -79,10 +79,11 @@ def add_custom_game_name(game_name, invert=False):
 
     # Add custom text to image
     font = ImageFont.truetype('fonts/HelveticaNeue-Bold.otf', size=92)
+    game_name = game_name.replace("\\n", "\n")
     if invert:
-        draw.text((840, 3900), game_name, font=font, fill="#FFFFFF")
+        draw.multiline_text((840, 3900), game_name, font=font, fill="#FFFFFF")
     else:
-        draw.text((840, 3900), game_name, font=font, fill="#000000")
+        draw.multiline_text((840, 3900), game_name, font=font, fill="#000000")
     
     # Save the edited image
     img.save("files/cards/cards_0.png")
@@ -247,6 +248,7 @@ def main():
         print(f"[i] Custom Short Name Enabled: {game_info['short_name']}")
     if game_info["game_version"]:
         print(f"[i] Custom Game Version Enabled: {game_info['game_version']}")
+    print(f" [i] Deck: {str(DECK)}")
     print(f"\n # Generating Cards...")
     stdout.flush()
 
